@@ -8,13 +8,133 @@
 #include<iostream>
 #include<vector>
 using namespace std;
-void min_generate_tree()
+void min_generate_treeB(int  A[9][9])
 {
+	int B[9], C[9][9],N,I,J,c=1;
+	vector<int> Q(9);
+	for (int i = 0; i < 9; ++i)
+		for (int j = 0; j < 9; ++j)
+			C[i][j] = 0;
+	for (int i = 0; i < 9; ++i)
+	{
+		B[i] = 0;
+		Q[i] = i;
+	}
+
+	Q.pop_back();
+	while (!Q.empty())
+	{
+		N = 0;
+		for (int i = 0; i < 9; ++i)
+		{
+			for (int j = 0; j < 9; ++j)
+			{
+				if (A[i][j] != 0 && (B[i] != B[j]||(B[i] ==0&& B[j]==0)))
+					if (A[i][j] <= N || N == 0)
+					{
+						N = A[i][j];
+						I = i;
+						J = j;
+					}
+			}
+		}
+		C[I][J] = A[I][J];
+		A[I][J] = 0;
+		if (B[I] == 0 && B[J] == 0)
+		{
+			B[I] = c;
+			B[J] = c;
+		}
+		else if(B[I]==0||B[J]==0)
+		{
+			B[I] == 0 ? B[I] = B[J] : B[J] = B[I];
+		}
+		else if ((B[I] != 0 && B[J] != 0))
+		{
+			int aa, bb;
+			aa = B[I];
+			bb = B[J];
+			for (int i = 0; i < 9; ++i)
+			{
+			
+				if (B[i] == aa)
+				{
+					B[i] = c;
+				}
+				if (B[i] == bb)
+				{
+					B[i] = c;
+				}
+			}
+		}
+
+		c++;
 	
-	int a, b, c;
-	char ccc, cc, c;
-	int u, f, h;
-	int ss;
+		Q.pop_back();
+	}
+	for (int i = 0; i < 9; ++i)
+	{
+		for (int j = 0; j < 9; ++j)
+		{
+
+			cout << C[i][j] << " ";
+
+		}
+		cout << "\n";
+	}
+	
+}
+void min_generate_treeA(int  A[9][9])
+{//prim
+	int B[9], N = 0, I, J, C[9][9] = {0};
+	vector<int> Q(9);
+
+	for (int i = 0; i < 9; ++i)
+		for (int j = 0; j < 9; ++j)
+			C[i][j] = 0;
+	for (int i = 0; i < 9; ++i)
+	{
+		B[i] = 0;
+		Q[i] = i;
+	}
+	B[4] = 1;
+	Q.pop_back();
+	while (Q.empty() == 0)
+	{
+		N = 0;
+		
+		for (int i = 0; i < 9; ++i)
+		{
+			for (int j = 0; j < 9; ++j)
+			{
+				if (A[i][j] != 0&&(B[i]==1||B[j]==1))
+					if (A[i][j] <= N || N == 0)
+					{
+						N = A[i][j];
+						I = i;
+						J = j;
+					}
+			}
+		}
+		B[I] = 1;
+		B[J] = 1;
+		Q.pop_back();
+		C[I][J] = A[I][J];
+		A[I][J] = 0;
+		
+
+	}
+
+	for (int i = 0; i < 9; ++i)
+	{
+		for (int j = 0; j < 9; ++j)
+		{
+
+			cout << C[i][j] << " ";
+
+		}
+		cout << "\n";
+	}
 
 }
 
@@ -98,6 +218,16 @@ int main()
 				0,0,0,16,0,0,0,0,0,
 				0,0,0,21,0,0,0,0,0,
 	};
+	int B[9][9] = { 0,10,0,0,0,11,0,0,0,
+				0,0,18,0,0,0,16,0,12,
+				0,0,0,22,0,0,0,0,8,
+				0,0,0,0,0,0,0,0,0,
+				0,0,0,20,0,0,0,7,0,
+				0,0,0,0,26,0,17,0,0,
+				0,0,0,24,0,0,0,19,0,
+				0,0,0,16,0,0,0,0,0,
+				0,0,0,21,0,0,0,0,0,
+	};
 
 	for (int i = 0; i <9; ++i)
 	{
@@ -110,8 +240,10 @@ int main()
 		}
 		cout << "\n";
 	}
-
-	Dijkstra(A);
+	
+	//Dijkstra(A);
+	min_generate_treeA(A);
+	min_generate_treeB(B);
 	
 }
 
