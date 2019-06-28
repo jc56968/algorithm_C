@@ -14,6 +14,7 @@ void min_generate_tree()
 	int a, b, c;
 	char ccc, cc, c;
 	int u, f, h;
+	int ss;
 
 }
 
